@@ -96,6 +96,19 @@ cd istichara-backend
 ```bash
 npm install
 ```
+### Dependencies Explanation
+```bash
+- **express** → Node.js web framework  
+- **mongoose** → MongoDB object modeling  
+- **dotenv** → load environment variables from `.env`  
+- **cors** → allow cross-origin requests (frontend ↔ backend)  
+- **bcryptjs** → hash passwords securely  
+- **jsonwebtoken** → generate/verify JWT tokens  
+- **multer** → handle file uploads (attachments)  
+- **nodemailer** → send emails  
+- **nodemon** → auto-restart server in development  
+- **eslint** → linting tool for code quality
+```
 ### 3. Configure environment variables
 
 Create a .env file in the root folder and add:
