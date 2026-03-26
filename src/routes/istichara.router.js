@@ -10,35 +10,60 @@ istichara.router.js - Istichara (Consultation) Routes
 - Handles status updates and calendar availability
 */
 
-
-
-/*--------------------------------------Starting work--------------------------------------*/
-
-
-
 const express = require("express");
 const router = express.Router();
 
 const isticharaController = require("../controllers/istichara.controller");
-const { validateCreateIstichara } = require("../utils/validateIstichara");
+// const authMiddleware = require('../middleware/auth.middleware');
+// const roleMiddleware = require('../middleware/role.middleware');
+const upload = require('../middleware/upload.middleware');
 
-const authMiddleware = require('../middleware/auth.middleware');
-const roleMiddleware = require('../middleware/role.middleware');
-
-router.get("/", isticharaController.getIstichara);
-
-router.post(
-  "/",
-  validateCreateIstichara,
-  isticharaController.createIstichara
+// GET /istichara → list all Istichara by role
+router.get(
+  '/',
+  // authMiddleware,
+  isticharaController.getAll
 );
 
-router.put("/:id", isticharaController.updateIstichara);
+// POST /istichara → create a new Istichara request (client only)
+router.post(
+  '/',
+  // authMiddleware,
+  // roleMiddleware('client'),
+  upload.array('attachments'),
+  isticharaController.create
+);
 
-router.delete("/:id", isticharaController.deleteIstichara);
+// PUT /istichara/:id → update Istichara (client only, maybe allow updating only pending requests)
+router.put(
+  '/:id',
+  // authMiddleware,
+  // roleMiddleware('client'),
+  isticharaController.update
+);
 
-router.patch("/:id/accept", isticharaController.acceptIstichara);
+// DELETE /istichara/:id → delete Istichara (client only)
+router.delete(
+  '/:id',
+  // authMiddleware,
+  // roleMiddleware('client'),
+  isticharaController.delete
+);
 
-router.patch("/:id/refuse", isticharaController.refuseIstichara);
+// PATCH /istichara/:id/accept → lawyer accepts request
+router.patch(
+  '/:id/accept',
+  // authMiddleware,
+  // roleMiddleware('lawyer'),
+  isticharaController.accept
+);
+
+// PATCH /istichara/:id/refuse → lawyer refuses request
+router.patch(
+  '/:id/refuse',
+  // authMiddleware,
+  // roleMiddleware('lawyer'),
+  isticharaController.refuse
+);
 
 module.exports = router;
