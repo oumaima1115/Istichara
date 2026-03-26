@@ -5,12 +5,18 @@ const cors = require('cors');
 
 const app = express();
 
+
+
+
 /* ========================
    Middleware
 ======================== */
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+
+
 
 /* ========================
    Database Connection
@@ -24,7 +30,7 @@ mongoose.connect(process.env.MONGO_URI)
 ======================== */
 // app.use('/api/auth', require('./src/routes/auth.router'));
 // app.use('/api/user', require('./src/routes/user.router'));
-// app.use('/api/istichara', require('./src/routes/istichara.router'));
+app.use('/api/istichara', require('./routes/istichara.router'));
 // app.use('/api/coupon', require('./src/routes/coupon.router'));
 // app.use('/api/review', require('./src/routes/review.router'));
 
