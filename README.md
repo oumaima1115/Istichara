@@ -113,9 +113,10 @@ npm install
 
 Create a .env file in the root folder and add:
 ```bash
-PORT=5000
+JWT_SECRET=your_jwt_secret_key
 MONGO_URI=your_mongodb_connection_string
-JWT_SECRET=your_secret_key
+EMAIL_USER=your_email_address
+EMAIL_PASS=your_email_password_or_app_password
 ```
 ### 4. Run the server
 ```bash
