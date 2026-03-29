@@ -49,29 +49,58 @@ The platform includes appointment booking, online payment, and lawyer availabili
 ## API Overview
 
 ### Auth
-- POST /signup  
-- POST /login  
-- POST /logout  
+
+| Method | Endpoint | Description |
+| ------ | -------- | ----------- |
+| POST   | /signup  | Create a new user |
+| POST   | /login   | Authenticate user |
+| POST   | /logout  | Logout user |
+
+---
 
 ### Users
-- GET /profile  
-- PUT /profile  
-- DELETE /profile  
-- GET /users  
+
+| Method | Endpoint   | Description |
+| ------ | ---------- | ----------- |
+| GET    | /profile   | Get current user profile |
+| PUT    | /profile   | Update current user profile |
+| DELETE | /profile   | Delete current user profile |
+| GET    | /users     | Get all users |
+
+---
 
 ### Istichara
-- GET /istichara  
-- POST /istichara  
-- PUT /istichara/:id  
-- DELETE /istichara/:id  
-- PATCH /istichara/:id/accept  
-- PATCH /istichara/:id/refuse  
+
+| Method | Endpoint | Description |
+| ------ | -------- | ----------- |
+| GET    | /istichara | Get all istichara |
+| POST   | /istichara | Create new istichara |
+| PUT    | /istichara/:id | Update istichara |
+| DELETE | /istichara/:id | Delete istichara |
+| PATCH  | /istichara/:id/accept | Accept istichara |
+| PATCH  | /istichara/:id/refuse | Refuse istichara |
+
+---
 
 ### Coupon
-- GET /coupon  
-- POST /coupon  
-- PUT /coupon/:id  
-- DELETE /coupon/:id  
+
+| Method | Endpoint | Description |
+| ------ | -------- | ----------- |
+| GET    | /coupon | Get all coupons |
+| POST   | /coupon | Create coupon |
+| PUT    | /coupon/:id | Update coupon |
+| DELETE | /coupon/:id | Delete coupon |
+
+---
+
+### Review
+
+| Method | Endpoint | Description |
+| ------ | -------- | ----------- |
+| GET    | /reviews | Get reviews (filtered by user role in controller) |
+| POST   | /reviews | Create a review (client only) |
+| PUT    | /reviews/:id | Update a review (client only) |
+| DELETE | /reviews/:id | Delete a review (client only) |
 
 ---
 
@@ -97,25 +126,28 @@ cd istichara-backend
 npm install
 ```
 ### Dependencies Explanation
-```bash
-- **express** → Node.js web framework  
-- **mongoose** → MongoDB object modeling  
-- **dotenv** → load environment variables from `.env`  
-- **cors** → allow cross-origin requests (frontend ↔ backend)  
-- **bcryptjs** → hash passwords securely  
-- **jsonwebtoken** → generate/verify JWT tokens  
-- **multer** → handle file uploads (attachments)  
-- **nodemailer** → send emails  
-- **nodemon** → auto-restart server in development  
-- **eslint** → linting tool for code quality
-```
+
+| Package | Description |
+|--------|------------|
+| express | Node.js web framework |
+| mongoose | MongoDB object modeling |
+| dotenv | Load environment variables from `.env` |
+| cors | Allow cross-origin requests |
+| bcryptjs | Hash passwords securely |
+| jsonwebtoken | Generate and verify JWT tokens |
+| multer | Handle file uploads |
+| nodemailer | Send emails |
+| nodemon | Auto-restart server in development |
+| eslint | Linting tool for code quality |
+
 ### 3. Configure environment variables
 
 Create a .env file in the root folder and add:
 ```bash
-PORT=5000
+JWT_SECRET=your_jwt_secret_key
 MONGO_URI=your_mongodb_connection_string
-JWT_SECRET=your_secret_key
+EMAIL_USER=your_email_address
+EMAIL_PASS=your_email_password_or_app_password
 ```
 ### 4. Run the server
 ```bash
