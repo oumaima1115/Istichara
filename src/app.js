@@ -22,10 +22,10 @@ mongoose.connect(process.env.MONGO_URI)
 /* ========================
    Routes
 ======================== */
-// app.use('/api/auth', require('./routes/auth.router'));
-// app.use('/api/user', require('./routes/user.router'));
+app.use('/api/auth', require('./routes/auth.router'));
+app.use('/api/user', require('./routes/user.router'));
 // app.use('/api/istichara', require('./routes/istichara.router'));
-// app.use('/api/coupon', require('./routes/coupon.router'));
+app.use('/api/coupon', require('./routes/coupon.router'));
 app.use('/api/review', require('./routes/review.router'));
 
 /* ========================

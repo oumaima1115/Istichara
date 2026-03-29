@@ -12,11 +12,11 @@ exports.getAll = async (req, res) => {
         let filter = {};
 
         if (user.role === 'lawyer') {
-            filter.lawyerId = user._id;
+            filter.lawyerId = user.id;
         }
 
         if (user.role === 'client') {
-            filter.clientId = user._id;
+            filter.clientId = user.id;
         }
 
         const reviews = await Review.find(filter)
@@ -45,8 +45,7 @@ exports.create = async (req, res) => {
     try {
         const { lawyerId, rating, comment } = req.body;
 
-        // const clientId = req.user._id;
-        const clientId = "65f1a2b3c4d5e6f789012345";
+        const clientId = req.user.id;
 
         const parsedRating = Number(rating);
 
@@ -92,7 +91,7 @@ PUT /reviews/:id
 exports.update = async (req, res) => {
     try {
         const reviewId = req.params.id;
-        const clientId = req.user._id;
+        const clientId = req.user.id;
 
         const { rating, comment } = req.body;
 
@@ -148,7 +147,7 @@ DELETE /reviews/:id
 exports.remove = async (req, res) => {
     try {
         const reviewId = req.params.id;
-        const clientId = req.user._id;
+        const clientId = req.user.id;
 
         const review = await Review.findOneAndDelete({
             _id: reviewId,
