@@ -7,18 +7,30 @@ const validateIstichara = require('../utils/validateIstichara');
 // GET /istichara → list all Istichara (lawyer sees all, client sees own)
 exports.getAll = async (req, res) => {
   try {
-    const data = await Istichara.find().sort({ createdAt: -1 });
+    const { id, role } = req.user;
+
+    let filter = {};
+
+    if (role === "client") {
+      filter.clientId = id;
+    }
+
+    if (role === "lawyer") {
+      filter.lawyerId = id;
+    }
+
+    const data = await Istichara.find(filter).sort({ createdAt: -1 });
 
     res.status(200).json({
       success: true,
       count: data.length,
-      data
+      data,
     });
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: 'Error fetching Isticharas',
-      error: error.message
+      message: "Error fetching Isticharas",
+      error: error.message,
     });
   }
 };
