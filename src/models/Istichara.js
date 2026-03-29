@@ -4,8 +4,6 @@ lawyerId → Reference to the User who is the lawyer for this consultation.
 subject → String, main topic of the consultation.
 message → String, detailed description or question from the client.
 attachments[] → Array of file URLs or filenames (optional supporting documents).
-price → Number, cost of the consultation.
-taxes → Number, any applicable taxes on the price.
 couponCode → String, optional coupon applied for discount.
 status → String, enum: pending, accepted, refused (default: pending).
 scheduledDate → Date, the day of the consultation.
@@ -45,16 +43,6 @@ const isticharaSchema = new mongoose.Schema(
         type: String
       }
     ],
-
-    price: {
-      type: Number,
-      default: 0
-    },
-
-    taxes: {
-      type: Number,
-      default: 0
-    },
 
     couponCode: {
       type: String,

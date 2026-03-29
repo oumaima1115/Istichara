@@ -17,8 +17,6 @@ const validateIstichara = (data) => {
     scheduledDate,
     scheduledSlot,
     attachments,
-    price,
-    taxes,
     couponCode
   } = data;
 
@@ -60,19 +58,6 @@ const validateIstichara = (data) => {
           errors.push(`Attachment at index ${index} must be a string`);
         }
       });
-    }
-  }
-
-  // ===== Price & taxes validation (optional) =====
-  if (price !== undefined) {
-    if (typeof price !== "number" || price < 0) {
-      errors.push("Price must be a positive number");
-    }
-  }
-
-  if (taxes !== undefined) {
-    if (typeof taxes !== "number" || taxes < 0) {
-      errors.push("Taxes must be a positive number");
     }
   }
 

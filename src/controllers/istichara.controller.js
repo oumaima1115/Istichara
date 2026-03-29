@@ -25,8 +25,6 @@ exports.getAll = async (req, res) => {
 // POST /istichara → create a new Istichara
 exports.create = async (req, res) => {
   try {
-    req.body.price = Number(req.body.price);
-    req.body.taxes = Number(req.body.taxes);
 
     const errors = validateIstichara(req.body);
     if (errors.length > 0) {
@@ -41,8 +39,6 @@ exports.create = async (req, res) => {
       scheduledDate,
       scheduledSlot,
       couponCode,
-      price,
-      taxes
     } = req.body;
 
     const files = req.files || [];
@@ -59,8 +55,6 @@ exports.create = async (req, res) => {
       scheduledDate,
       scheduledSlot,
       attachments,
-      price,
-      taxes,
       couponCode
     });
 
@@ -149,12 +143,18 @@ exports.accept = async (req, res) => {
     // if (!client)
     //   return res.status(404).json({ success: false, message: 'Client not found' });
 
+    if (istichara.status !== 'pending') {
+      return res.status(400).json({
+        success: false,
+        message: `Cannot accept this istichara. Current status is "${istichara.status}"`
+      });
+    }
+
     istichara.status = 'accepted';
     await istichara.save();
 
-    // send email
     sendEmail(
-      'amariahmed2000@gmail.com',
+      'ayachioumaima2000@gmail.com',
       'Istichara request accepted',
       ` <div style="font-family: Arial, sans-serif; background-color: #f4f6f8; padding: 20px;">
           <div style="max-width: 600px; margin: auto; background: #ffffff; border-radius: 10px; overflow: hidden; border: 1px solid #e0e0e0;">
@@ -196,6 +196,7 @@ exports.accept = async (req, res) => {
     res.status(500).json({ success: false, message: 'Error accepting Istichara', error: error.message });
   }
 };
+
 // PATCH /istichara/:id/refuse → lawyer refuses request
 exports.refuse = async (req, res) => {
   try {
@@ -208,12 +209,18 @@ exports.refuse = async (req, res) => {
     // if (!client)
     //   return res.status(404).json({ success: false, message: 'Client not found' });
 
+    if (istichara.status !== 'pending') {
+      return res.status(400).json({
+        success: false,
+        message: `Cannot refuse this istichara. Current status is "${istichara.status}"`
+      });
+    }
+
     istichara.status = 'refused';
     await istichara.save();
 
-    // send email
     sendEmail(
-      'amariahmed2000@gmail.com',
+      'ayachioumaima2000@gmail.com',
       'Istichara request refused',
       ` <div style="font-family: Arial, sans-serif; background-color: #f4f6f8; padding: 20px;">
         <div style="max-width: 600px; margin: auto; background: #ffffff; border-radius: 10px; overflow: hidden; border: 1px solid #e0e0e0;">
