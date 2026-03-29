@@ -12,8 +12,13 @@ const router = express.Router();
 
 const authController = require('../controllers/auth.controller');
 const authMiddleware = require('../middleware/auth.middleware');
+const upload = require('../middleware/upload.middleware');
 
-router.post('/signup', authController.signup);
+router.post(
+    '/signup',
+    upload.array('profilePic'),
+    authController.signup
+);
 
 router.post('/login', authController.login);
 

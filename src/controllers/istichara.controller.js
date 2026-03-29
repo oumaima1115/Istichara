@@ -1,5 +1,6 @@
 const Istichara = require('../models/Istichara');
 const User = require('../models/User');
+const Coupon = require('../models/Coupon');
 const nodemailer = require('nodemailer');
 const validateIstichara = require('../utils/validateIstichara');
 
@@ -22,7 +23,7 @@ exports.getAll = async (req, res) => {
   }
 };
 
-// POST /istichara → create a new Istichara
+// POST /istichara → create a new Istichara request (client only)
 exports.create = async (req, res) => {
   try {
 
@@ -46,6 +47,38 @@ exports.create = async (req, res) => {
     const attachments = files.map((file) => {
       return `${req.protocol}://${req.get('host')}/uploads/${file.filename}`;
     });
+
+    let coupon = null;
+
+    if (couponCode) {
+      coupon = await Coupon.findOne({ code: couponCode });
+
+      if (!coupon) {
+        return res.status(400).json({
+          success: false,
+          message: 'Invalid coupon code'
+        });
+      }
+
+      if (coupon.expirationDate < new Date()) {
+        return res.status(400).json({
+          success: false,
+          message: 'Coupon expired'
+        });
+      }
+
+      // check if already used by this user
+      if (coupon.usedBy.includes(clientId)) {
+        return res.status(400).json({
+          success: false,
+          message: 'Coupon already used by this user'
+        });
+      }
+
+      // add user to usedBy
+      coupon.usedBy.push(clientId);
+      await coupon.save();
+    }
 
     const istichara = await Istichara.create({
       clientId,
@@ -139,9 +172,9 @@ exports.accept = async (req, res) => {
       return res.status(404).json({ success: false, message: 'Istichara not found' });
 
     // fetch client email
-    // const client = await User.findById(istichara.clientId);
-    // if (!client)
-    //   return res.status(404).json({ success: false, message: 'Client not found' });
+    const client = await User.findById(istichara.clientId);
+    if (!client)
+      return res.status(404).json({ success: false, message: 'Client not found' });
 
     if (istichara.status !== 'pending') {
       return res.status(400).json({
@@ -154,7 +187,7 @@ exports.accept = async (req, res) => {
     await istichara.save();
 
     sendEmail(
-      'ayachioumaima2000@gmail.com',
+      client.email,
       'Istichara request accepted',
       ` <div style="font-family: Arial, sans-serif; background-color: #f4f6f8; padding: 20px;">
           <div style="max-width: 600px; margin: auto; background: #ffffff; border-radius: 10px; overflow: hidden; border: 1px solid #e0e0e0;">
@@ -205,9 +238,9 @@ exports.refuse = async (req, res) => {
     if (!istichara)
       return res.status(404).json({ success: false, message: 'Istichara not found' });
 
-    // const client = await User.findById(istichara.clientId);
-    // if (!client)
-    //   return res.status(404).json({ success: false, message: 'Client not found' });
+    const client = await User.findById(istichara.clientId);
+    if (!client)
+      return res.status(404).json({ success: false, message: 'Client not found' });
 
     if (istichara.status !== 'pending') {
       return res.status(400).json({
@@ -220,7 +253,7 @@ exports.refuse = async (req, res) => {
     await istichara.save();
 
     sendEmail(
-      'ayachioumaima2000@gmail.com',
+      client.email,
       'Istichara request refused',
       ` <div style="font-family: Arial, sans-serif; background-color: #f4f6f8; padding: 20px;">
         <div style="max-width: 600px; margin: auto; background: #ffffff; border-radius: 10px; overflow: hidden; border: 1px solid #e0e0e0;">

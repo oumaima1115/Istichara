@@ -7,7 +7,7 @@ const jwt = require('jsonwebtoken');
 // --------------------------------------------------
 exports.signup = async (req, res) => {
   try {
-    const {
+    let {
       name,
       email,
       password,
@@ -19,6 +19,11 @@ exports.signup = async (req, res) => {
       cases_won
     } = req.body;
 
+    // ✅ parse calendar if it comes as string
+    if (calendar && typeof calendar === 'string') {
+      calendar = JSON.parse(calendar);
+    }
+
     // validation
     if (!name || !email || !password || !role) {
       return res.status(400).json({
@@ -27,7 +32,6 @@ exports.signup = async (req, res) => {
       });
     }
 
-    // check email
     const existingUser = await User.findOne({ email });
     if (existingUser) {
       return res.status(400).json({
@@ -36,10 +40,8 @@ exports.signup = async (req, res) => {
       });
     }
 
-    // hash password
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    // build user object based on role
     let userData = {
       name,
       email,
@@ -48,7 +50,6 @@ exports.signup = async (req, res) => {
       profilePic: profilePic || null
     };
 
-    // add lawyer-only fields
     if (role === 'lawyer') {
       userData.specialty = specialty || null;
       userData.calendar = calendar || {};
@@ -71,7 +72,6 @@ exports.signup = async (req, res) => {
     });
   }
 };
-
 // --------------------------------------------------
 // POST /login
 // --------------------------------------------------

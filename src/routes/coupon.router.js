@@ -16,7 +16,6 @@ const roleMiddleware = require('../middleware/role.middleware');
 router.get(
     '/',
     authMiddleware,
-    roleMiddleware('lawyer'),
     couponController.getAll
 );
 
