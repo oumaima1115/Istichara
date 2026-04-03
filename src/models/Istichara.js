@@ -1,6 +1,6 @@
 /*
 clientId → Reference to the User who is making the consultation request.
-lawyerId → Reference to the User who is the lawyer for this consultation.
+attorneyId → Reference to the User who is the attorney for this consultation.
 subject → String, main topic of the consultation.
 message → String, detailed description or question from the client.
 attachments[] → Array of file URLs or filenames (optional supporting documents).
@@ -21,7 +21,7 @@ const isticharaSchema = new mongoose.Schema(
       required: true
     },
 
-    lawyerId: {
+    attorneyId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
       required: true

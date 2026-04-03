@@ -1,24 +1,24 @@
 # Istichara – Legal Consultation Platform
 
 ## Description
-Istichara is a web platform that connects clients with lawyers for legal consultations.  
-Users can submit their questions, choose a lawyer, select an available time slot, and receive professional legal advice.  
+Istichara is a web platform that connects clients with attorneys for legal consultations.  
+Users can submit their questions, choose a attorney, select an available time slot, and receive professional legal advice.  
 
-The platform includes appointment booking, online payment, and lawyer availability management.
+The platform includes appointment booking, online payment, and attorney availability management.
 
 ---
 
 ## Features
 - User authentication (Sign up, Sign in, Logout)  
-- Client and Lawyer roles  
-- List of lawyers with filters  
+- Client and Attorney roles  
+- List of attorneys with filters  
 - Submit Istichara (consultation request)  
 - Upload attachments  
-- Select lawyer and available time (calendar)  
+- Select attorney and available time (calendar)  
 - Online payment with coupon system  
-- Lawyer can accept or refuse requests  
+- Attorney can accept or refuse requests  
 - Email notification to clients  
-- Profile management (client and lawyer)  
+- Profile management (client and attorney)  
 
 ---
 
@@ -39,10 +39,10 @@ The platform includes appointment booking, online payment, and lawyer availabili
 
 ## Main Pages
 - Home  
-- Lawyers List  
+- Attorneys List  
 - Istichara Form  
 - Sign In / Sign Up  
-- Profile (Client / Lawyer)  
+- Profile (Client / Attorney)  
 
 ---
 
@@ -105,11 +105,11 @@ The platform includes appointment booking, online payment, and lawyer availabili
 ---
 
 ## How It Works
-1. Client selects a lawyer  
+1. Client selects an attorney  
 2. Client chooses an available date and time  
 3. Client submits an Istichara request  
 4. The selected time slot becomes **reserved**  
-5. Lawyer accepts or refuses the request  
+5. Attorney accepts or refuses the request  
 6. Client receives a notification  
 
 ---

@@ -2,7 +2,7 @@
 user.router.js - User Management Routes
 
 - GET /profile → get current user profile
-- GET /users → get all lawyers (only accessible to clients)
+- GET /users → get all attorneys (only accessible to clients)
 - PUT /profile → update user profile
 - DELETE /profile → delete user account
 - Handles authentication and role-based access

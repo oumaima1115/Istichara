@@ -2,16 +2,16 @@
 name → String, required, trimmed.
 email → String, required, unique, lowercase.
 password → String, required.
-role → String, enum: client or lawyer, required.
-specialty → String, only for lawyers, default null.
+role → String, enum: client or attorney, required.
+specialty → String, only for attorneys, default null.
 profilePic → String, optional, default null.
 reviews → Array of ObjectIds referencing the Review collection.
-calendar → Object (only for lawyers):
+calendar → Object (only for attorneys):
 days → Array of Strings (enum: Monday → Sunday)
 startTime → String (e.g., "09:00")
 endTime → String (e.g., "14:00")
-price → Number, the cost of consultation from the lawyer
-cases_won → Number, the number of cases won by the lawyer
+price → Number, the cost of consultation from the attorney
+cases_won → Number, the number of cases won by the attorney
 timestamps → createdAt and updatedAt auto-generated.
 Note: 
 1. Client bookings (reserved slots) are stored in the Istichara collection, not here.
@@ -47,7 +47,7 @@ const userSchema = new mongoose.Schema(
 
     role: {
       type: String,
-      enum: ['client', 'lawyer'],
+      enum: ['client', 'attorney'],
       required: true
     },
 
@@ -58,7 +58,8 @@ const userSchema = new mongoose.Schema(
 
     profilePic: {
       type: String,
-      default: null
+      default: null,
+      required: true
     },
 
     reviews: [

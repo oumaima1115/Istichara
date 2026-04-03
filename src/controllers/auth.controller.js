@@ -50,7 +50,7 @@ exports.signup = async (req, res) => {
       profilePic: profilePic || null
     };
 
-    if (role === 'lawyer') {
+    if (role === 'attorney') {
       userData.specialty = specialty || null;
       userData.calendar = calendar || {};
       userData.price = price || 0;

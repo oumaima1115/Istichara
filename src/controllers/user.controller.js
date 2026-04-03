@@ -1,7 +1,7 @@
 const User = require('../models/User');
 
 // --------------------------------------------------
-// GET /profile → full user data (client or lawyer)
+// GET /profile → full user data (client or attorney)
 // --------------------------------------------------
 exports.getProfile = async (req, res) => {
   try {
@@ -31,7 +31,7 @@ exports.getProfile = async (req, res) => {
 };
 
 // --------------------------------------------------
-// GET /users → lawyers with pagination + filter + sort
+// GET /users → attorneys with pagination + filter + sort
 // --------------------------------------------------
 exports.getAllUsers = async (req, res) => {
   try {
@@ -45,7 +45,7 @@ exports.getAllUsers = async (req, res) => {
     } = req.query;
 
     // filter
-    let filter = { role: 'lawyer' };
+    let filter = { role: 'attorney' };
 
     if (specialty) {
       filter.specialty = specialty;
@@ -58,7 +58,7 @@ exports.getAllUsers = async (req, res) => {
     // pagination
     const skip = (page - 1) * limit;
 
-    const lawyers = await User.find(filter)
+    const attorneys = await User.find(filter)
       .select('-password')
     //   .populate('reviews')
       .sort(sortOptions)
@@ -72,13 +72,13 @@ exports.getAllUsers = async (req, res) => {
       page: Number(page),
       totalPages: Math.ceil(total / limit),
       totalUsers: total,
-      data: lawyers
+      data: attorneys
     });
 
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: 'Error fetching lawyers',
+      message: 'Error fetching attorneys',
       error: error.message
     });
   }
@@ -95,7 +95,7 @@ exports.updateProfile = async (req, res) => {
     delete updates.role;
     delete updates.reviews;
 
-    if (req.user.role !== 'lawyer') {
+    if (req.user.role !== 'attorney') {
       delete updates.specialty;
       delete updates.calendar;
       delete updates.price;

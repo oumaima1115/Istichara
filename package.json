@@ -1,7 +1,7 @@
 {
   "name": "istichara",
   "version": "1.0.0",
-  "description": "## Description Istichara is a web platform that connects clients with lawyers for legal consultations.   Users can submit their questions, choose a lawyer, select an available time slot, and receive professional legal advice.",
+  "description": "## Description Istichara is a web platform that connects clients with attorneys for legal consultations.   Users can submit their questions, choose a attorney, select an available time slot, and receive professional legal advice.",
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",

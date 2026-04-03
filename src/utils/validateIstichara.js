@@ -1,5 +1,5 @@
 /*
-Checks required fields for creating an Istichara request: clientId, lawyerId, subject, message, scheduledDate, scheduledSlot.
+Checks required fields for creating an Istichara request: clientId, attorneyId, subject, message, scheduledDate, scheduledSlot.
 Validates scheduledDate is a valid date.
 Validates scheduledSlot is a valid time string (e.g., "10:00").
 Optionally validates attachments array.
@@ -11,7 +11,7 @@ const validateIstichara = (data) => {
 
   const {
     clientId,
-    lawyerId,
+    attorneyId,
     subject,
     message,
     scheduledDate,
@@ -22,7 +22,7 @@ const validateIstichara = (data) => {
 
   // ===== Required fields =====
   if (!clientId) errors.push("clientId is required");
-  if (!lawyerId) errors.push("lawyerId is required");
+  if (!attorneyId) errors.push("attorneyId is required");
   if (!subject) errors.push("Subject is required");
   if (!message) errors.push("Message is required");
   if (!scheduledDate) errors.push("Scheduled date is required");

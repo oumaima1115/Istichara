@@ -4,7 +4,7 @@ const Coupon = require('../models/Coupon');
 const nodemailer = require('nodemailer');
 const validateIstichara = require('../utils/validateIstichara');
 
-// GET /istichara → list all Istichara (lawyer sees all, client sees own)
+// GET /istichara → list all Istichara (attorney sees all, client sees own)
 exports.getAll = async (req, res) => {
   try {
     const { id, role } = req.user;
@@ -15,8 +15,8 @@ exports.getAll = async (req, res) => {
       filter.clientId = id;
     }
 
-    if (role === "lawyer") {
-      filter.lawyerId = id;
+    if (role === "attorney") {
+      filter.attorneyId = id;
     }
 
     const data = await Istichara.find(filter).sort({ createdAt: -1 });
@@ -46,7 +46,7 @@ exports.create = async (req, res) => {
 
     const {
       clientId,
-      lawyerId,
+      attorneyId,
       subject,
       message,
       scheduledDate,
@@ -94,7 +94,7 @@ exports.create = async (req, res) => {
 
     const istichara = await Istichara.create({
       clientId,
-      lawyerId,
+      attorneyId,
       subject,
       message,
       scheduledDate,
@@ -175,7 +175,7 @@ exports.delete = async (req, res) => {
   }
 };
 
-// PATCH /istichara/:id/accept → lawyer accepts request
+// PATCH /istichara/:id/accept → attorney accepts request
 exports.accept = async (req, res) => {
   try {
     const { id } = req.params;
@@ -211,7 +211,7 @@ exports.accept = async (req, res) => {
             <div style="padding: 20px; color: #333;">
               <p>Hello,</p>
 
-              <p>Your consultation request has been accepted by the lawyer.</p>
+              <p>Your consultation request has been accepted by the attorney.</p>
 
               <div style="margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-radius: 8px;">
                 <p><strong>Subject:</strong> ${istichara.subject}</p>
@@ -242,7 +242,7 @@ exports.accept = async (req, res) => {
   }
 };
 
-// PATCH /istichara/:id/refuse → lawyer refuses request
+// PATCH /istichara/:id/refuse → attorney refuses request
 exports.refuse = async (req, res) => {
   try {
     const { id } = req.params;
@@ -277,7 +277,7 @@ exports.refuse = async (req, res) => {
           <div style="padding: 20px; color: #333;">
             <p>Hello,</p>
 
-            <p>Your consultation request has been reviewed and refused by the lawyer.</p>
+            <p>Your consultation request has been reviewed and refused by the attorney.</p>
 
             <div style="margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-radius: 8px;">
               <p><strong>Subject:</strong> ${istichara.subject}</p>
@@ -287,7 +287,7 @@ exports.refuse = async (req, res) => {
             </div>
 
             <p style="margin-top: 20px;">
-              You can submit a new request or choose another lawyer if needed.
+              You can submit a new request or choose another attorney if needed.
             </p>
 
             <p>Regards,<br/>Istichara Team</p>

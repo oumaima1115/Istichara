@@ -22,21 +22,21 @@ router.get(
 router.post(
     '/',
     authMiddleware,
-    roleMiddleware('lawyer'),
+    roleMiddleware('attorney'),
     couponController.create
 );
 
 router.put(
     '/:id',
     authMiddleware,
-    roleMiddleware('lawyer'),
+    roleMiddleware('attorney'),
     couponController.update
 );
 
 router.delete(
     '/:id',
     authMiddleware,
-    roleMiddleware('lawyer'),
+    roleMiddleware('attorney'),
     couponController.delete
 );
 

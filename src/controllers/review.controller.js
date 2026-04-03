@@ -2,7 +2,7 @@ const Review = require('../models/Review');
 
 /*
 GET /reviews
-- If user is lawyer → return reviews for that lawyer
+- If user is attorney → return reviews for that attorney
 - If user is client → return reviews written by that client
 */
 exports.getAll = async (req, res) => {
@@ -11,8 +11,8 @@ exports.getAll = async (req, res) => {
 
         let filter = {};
 
-        if (user.role === 'lawyer') {
-            filter.lawyerId = user.id;
+        if (user.role === 'attorney') {
+            filter.attorneyId = user.id;
         }
 
         if (user.role === 'client') {
@@ -21,7 +21,7 @@ exports.getAll = async (req, res) => {
 
         const reviews = await Review.find(filter)
             .populate('clientId', 'name email')
-            .populate('lawyerId', 'name email')
+            .populate('attorneyId', 'name email')
             .sort({ createdAt: -1 });
 
         res.json({
@@ -43,16 +43,16 @@ POST /reviews
 */
 exports.create = async (req, res) => {
     try {
-        const { lawyerId, rating, comment } = req.body;
+        const { attorneyId, rating, comment } = req.body;
 
         const clientId = req.user.id;
 
         const parsedRating = Number(rating);
 
-        if (!lawyerId) {
+        if (!attorneyId) {
             return res.status(400).json({
                 success: false,
-                message: 'lawyerId is required'
+                message: 'attorneyId is required'
             });
         }
 
@@ -64,7 +64,7 @@ exports.create = async (req, res) => {
         }
 
         const review = await Review.create({
-            lawyerId,
+            attorneyId,
             clientId,
             rating: parsedRating,
             comment

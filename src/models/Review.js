@@ -1,5 +1,5 @@
 /*
-lawyerId → Reference to the User (lawyer) being reviewed.
+attorneyId → Reference to the User (attorney) being reviewed.
 clientId → Reference to the User (client) leaving the review.
 rating → Number (1–5), the score given by the client.
 comment → String, optional text comment from the client.
@@ -10,7 +10,7 @@ const mongoose = require('mongoose');
 
 const reviewSchema = new mongoose.Schema(
     {
-        lawyerId: {
+        attorneyId: {
             type: mongoose.Schema.Types.ObjectId,
             ref: 'User',
             required: true
