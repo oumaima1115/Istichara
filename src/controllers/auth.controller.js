@@ -13,15 +13,16 @@ exports.signup = async (req, res) => {
       password,
       role,
       specialty,
-      profilePic,
-      calendar,
+      days,
+      startTime,
+      endTime,
       price,
       cases_won
     } = req.body;
 
-    // ✅ parse calendar if it comes as string
-    if (calendar && typeof calendar === 'string') {
-      calendar = JSON.parse(calendar);
+    // ✅ parse days if it comes as string
+    if (days && typeof days === 'string') {
+      days = JSON.parse(days);
     }
 
     // validation
@@ -47,21 +48,25 @@ exports.signup = async (req, res) => {
       email,
       password: hashedPassword,
       role,
-      profilePic: profilePic || null
+      profilePic: req.file ? req.file.filename : null
     };
 
     if (role === 'attorney') {
       userData.specialty = specialty || null;
-      userData.calendar = calendar || {};
-      userData.price = price || 0;
-      userData.cases_won = cases_won || 0;
+      userData.calendar = {
+        days: days || [],
+        startTime: startTime || null,
+        endTime: endTime || null
+      };
+      userData.price = parseFloat(price) || 0;
+      userData.cases_won = parseInt(cases_won) || 0;
     }
 
     const user = await User.create(userData);
 
     res.status(201).json({
       success: true,
-      message: 'User created successfully'
+      message: 'User created successfully. Please log in to continue.'
     });
 
   } catch (error) {

@@ -16,7 +16,7 @@ const upload = require('../middleware/upload.middleware');
 
 router.post(
     '/signup',
-    upload.array('profilePic'),
+    upload.single('profilePic'),
     authController.signup
 );
 

@@ -58,8 +58,7 @@ const userSchema = new mongoose.Schema(
 
     profilePic: {
       type: String,
-      default: null,
-      required: true
+      default: null
     },
 
     reviews: [
