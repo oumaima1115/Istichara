@@ -1,11 +1,11 @@
 const User = require('../models/User');
 
 // --------------------------------------------------
-// GET /profile → full user data (client or attorney)
+// GET /profile/:id → full user data (client or attorney)
 // --------------------------------------------------
-exports.getProfile = async (req, res) => {
+exports.getProfileById = async (req, res) => {
   try {
-    const user = await User.findById(req.user.id)
+    const user = await User.findById(req.params.id)
       .select('-password');
     //   .populate('reviews');
 

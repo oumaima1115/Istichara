@@ -15,10 +15,11 @@ const userController = require('../controllers/user.controller');
 const authMiddleware = require('../middleware/auth.middleware');
 const roleMiddleware = require('../middleware/role.middleware');
 
+// Get user profile by ID
 router.get(
-    '/profile',
+    '/profile/:id',
     authMiddleware,
-    userController.getProfile
+    userController.getProfileById
 );
 
 // pagination + filter + sort
