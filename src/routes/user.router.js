@@ -28,7 +28,6 @@ router.get(
 router.get(
     '/users',
     authMiddleware,
-    roleMiddleware('client'),
     userController.getAllUsers
 );
 

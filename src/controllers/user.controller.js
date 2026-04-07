@@ -60,7 +60,7 @@ exports.getAllUsers = async (req, res) => {
 
     const attorneys = await User.find(filter)
       .select('-password')
-    //   .populate('reviews')
+      .populate('reviews')
       .sort(sortOptions)
       .skip(skip)
       .limit(Number(limit));

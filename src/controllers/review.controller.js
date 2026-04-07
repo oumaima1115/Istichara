@@ -1,4 +1,5 @@
 const Review = require('../models/Review');
+const User = require('../models/User');
 
 /*
 GET /reviews
@@ -6,35 +7,20 @@ GET /reviews
 - If user is client → return reviews written by that client
 */
 exports.getAll = async (req, res) => {
-    try {
-        const user = req.user;
+  try {
+    const reviews = await Review.find(); 
 
-        let filter = {};
+    console.log("Reviews fetched:", reviews);
 
-        if (user.role === 'attorney') {
-            filter.attorneyId = user.id;
-        }
+    res.json(reviews);
+  } catch (error) {
+    console.error("Error in getAll:", error);
 
-        if (user.role === 'client') {
-            filter.clientId = user.id;
-        }
-
-        const reviews = await Review.find(filter)
-            .populate('clientId', 'name email')
-            .populate('attorneyId', 'name email')
-            .sort({ createdAt: -1 });
-
-        res.json({
-            success: true,
-            data: reviews
-        });
-    } catch (error) {
-        res.status(500).json({
-            success: false,
-            message: 'Error fetching reviews',
-            error: error.message
-        });
-    }
+    res.status(500).json({
+      message: "Server error",
+      error: error.message,
+    });
+  }
 };
 
 /*
@@ -69,6 +55,9 @@ exports.create = async (req, res) => {
             rating: parsedRating,
             comment
         });
+        const attorney = await User.findById(attorneyId);
+        attorney.reviews.push(review._id);
+        await attorney.save();
 
         res.status(201).json({
             success: true,

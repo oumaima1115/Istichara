@@ -19,9 +19,10 @@ const roleMiddleware = require('../middleware/role.middleware');
 
 router.get(
   '/',
-  authMiddleware,
   reviewController.getAll
 );
+
+// get review by attorneyId
 
 router.post(
   '/',
