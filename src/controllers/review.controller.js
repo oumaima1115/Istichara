@@ -10,8 +10,6 @@ exports.getAll = async (req, res) => {
   try {
     const reviews = await Review.find(); 
 
-    console.log("Reviews fetched:", reviews);
-
     res.json(reviews);
   } catch (error) {
     console.error("Error in getAll:", error);

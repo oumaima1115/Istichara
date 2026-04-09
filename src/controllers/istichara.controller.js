@@ -103,8 +103,6 @@ exports.create = async (req, res) => {
       couponCode
     });
 
-    console.log('Istichara created:', istichara);
-
     res.status(201).json({
       success: true,
       message: 'Istichara created successfully',
