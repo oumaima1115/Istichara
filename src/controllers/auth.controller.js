@@ -1,6 +1,7 @@
 const User = require('../models/User');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const uploadToCloudinary = require('../utils/cloudinary');
 
 // --------------------------------------------------
 // POST /signup
@@ -20,12 +21,10 @@ exports.signup = async (req, res) => {
       cases_won
     } = req.body;
 
-    // ✅ parse days if it comes as string
     if (days && typeof days === 'string') {
       days = JSON.parse(days);
     }
 
-    // validation
     if (!name || !email || !password || !role) {
       return res.status(400).json({
         success: false,
@@ -43,12 +42,20 @@ exports.signup = async (req, res) => {
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
+    // upload image to cloud
+    let profilePicUrl = null;
+
+    if (req.file) {
+      const result = await uploadToCloudinary(req.file);
+      profilePicUrl = result.secure_url;
+    }
+
     let userData = {
       name,
       email,
       password: hashedPassword,
       role,
-      profilePic: req.file ? req.file.filename : null
+      profilePic: profilePicUrl
     };
 
     if (role === 'attorney') {
@@ -62,11 +69,11 @@ exports.signup = async (req, res) => {
       userData.cases_won = parseInt(cases_won) || 0;
     }
 
-    const user = await User.create(userData);
+    await User.create(userData);
 
     res.status(201).json({
       success: true,
-      message: 'User created successfully. Please log in to continue.'
+      message: 'User created successfully'
     });
 
   } catch (error) {
@@ -77,6 +84,7 @@ exports.signup = async (req, res) => {
     });
   }
 };
+
 // --------------------------------------------------
 // POST /login
 // --------------------------------------------------
